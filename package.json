@@ -1,0 +1,13 @@
+{
+    "name": "cube",
+    "version": "1.0.0",
+    "scripts": {
+        "build": "webpack",
+        "start": "webpack && node server.js"
+    },
+    "dependencies": {
+        "three": "^0.186.1",
+        "webpack": "*",
+        "webpack-cli": "*"
+    }
+}
