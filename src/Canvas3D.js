@@ -11,11 +11,11 @@ export default class Canvas3D extends HTMLCanvasElement
         this.renderer.setSize(width, height);
         this.scene = new THREE.Scene();
         this.scene.background = new THREE.Color("white");
-        this.camera = new THREE.PerspectiveCamera( 75, width / height, 0.1, 1000 );
+        this.camera = new THREE.PerspectiveCamera(35, width / height, 0.1, 1000 );
         this.controls = new OrbitControls(this.camera, this);
         this.camera.position.x = 0;
-        this.camera.position.y = 2;
-        this.camera.position.z = 2;
+        this.camera.position.y = 4;
+        this.camera.position.z = 4;
         this.camera.lookAt(0,0,0);
 
 
