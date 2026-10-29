@@ -110,7 +110,7 @@ import Canvas3D from './Canvas3D';
     //9
     let f = new Face();
     let f1 = f.addFace("right");
-    let f2 = f2.addFace("right");
+    let f2 = f1.addFace("right");
     let f3 = f.addFace("top");
     let f4 = f3.addFace("left");
     let f5 = f4.addFace("left");
