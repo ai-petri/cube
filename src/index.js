@@ -1,6 +1,5 @@
 import Face from './Face';
 import Canvas3D from './Canvas3D';
-
 let canvas = new Canvas3D(800,600);
 
 document.body.append(canvas)
