@@ -1,8 +1,10 @@
 import * as THREE from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
 
 export default class Canvas3D extends HTMLCanvasElement
 {
+    /**@type {THREE.Object3D} */
+    object;
     constructor(width, height)
     {
         super();
@@ -13,13 +15,39 @@ export default class Canvas3D extends HTMLCanvasElement
         
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(35, width / height, 0.1, 1000 );
-        this.controls = new OrbitControls(this.camera, this);
+
         this.camera.position.x = 0;
         this.camera.position.y = 4;
         this.camera.position.z = 4;
         this.camera.lookAt(0,0,0);
-        
 
+        this.isDown = false;
+        this.addEventListener("mousedown",e=>this.isDown = true);
+        window.addEventListener("mouseup",e=>this.isDown = false);
+        this.addEventListener("mousemove", e =>
+        {
+            if(this.isDown && this.object)
+            {
+                this.object.rotateY(-0.01* e.movementX);
+                this.object.rotateX(0.01*e.movementY);
+            }
+        });
+
+        this.addEventListener("wheel", e=>
+        {
+            e.preventDefault();
+
+            let target = new THREE.Vector3(0, 0, 0);
+            let distance = this.camera.position.distanceTo(target)
+
+            if((distance>3 && e.deltaY>0)|| e.deltaY<0)
+            {
+                let direction = target.clone().sub(this.camera.position).normalize();
+                this.camera.position.addScaledVector(direction, 0.001*e.deltaY); 
+                this.camera.lookAt(target);
+            }
+
+        },{passive:false})
 
 
         const light1 = new THREE.AmbientLight("white", 1)

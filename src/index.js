@@ -154,6 +154,7 @@ function createDiv(...faces)
     let canvas = new Canvas3D(innerWidth/3, innerHeight/3);
     
     canvas.scene.add(faces[0].mesh);
+    canvas.object = faces[0].mesh;
     
     let controls = document.createElement("div");
     controls.className = "controls";
