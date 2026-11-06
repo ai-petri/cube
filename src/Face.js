@@ -3,13 +3,17 @@ import * as THREE from 'three';
 export default class Face
 {
 
-    material = new THREE.MeshStandardMaterial({color:"white", roughness:0.5, metalness:0.8, side: THREE.DoubleSide});
+    material = new THREE.MeshStandardMaterial({color:"white", roughness:0.3, metalness:0.8, side: THREE.DoubleSide});
     geometry = new THREE.PlaneGeometry(1,1);
     mesh = new THREE.Mesh(this.geometry,this.material);
     setRotation = _=>_;
     getRotation = _=>0;
     rotate = _=>_;
-    
+    constructor()
+    {
+        this.mesh.castShadow = true;
+        this.mesh.receiveShadow = true;
+    }
     /**
      * @param {"left"|"top"|"right"|"bottom"} direction 
      */
