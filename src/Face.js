@@ -2,15 +2,21 @@ import * as THREE from 'three';
 
 export default class Face
 {
-
-    material = new THREE.MeshStandardMaterial({color:"white", roughness:0.3, metalness:0.8, side: THREE.DoubleSide});
     geometry = new THREE.PlaneGeometry(1,1);
-    mesh = new THREE.Mesh(this.geometry,this.material);
     setRotation = _=>_;
     getRotation = _=>0;
     rotate = _=>_;
     constructor()
     {
+        let canvas = document.createElement("canvas");
+        let ctx = canvas.getContext("2d");
+        ctx.fillStyle = "black";
+        ctx.fillRect(0,0,canvas.width,canvas.height);
+        ctx.fillStyle = "white";
+        ctx.fillRect(2,2,canvas.width - 2,canvas.height - 2);
+        let texture = new THREE.CanvasTexture(canvas);
+        this.material = new THREE.MeshStandardMaterial({color:"white", roughness:0.5, metalness:0.6, side: THREE.DoubleSide, map:texture});
+        this.mesh = new THREE.Mesh(this.geometry,this.material);
         this.mesh.castShadow = true;
         this.mesh.receiveShadow = true;
     }
