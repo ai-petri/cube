@@ -9,11 +9,14 @@ export default class Face
     constructor()
     {
         let canvas = document.createElement("canvas");
-        let ctx = canvas.getContext("2d");
-        ctx.fillStyle = "black";
-        ctx.fillRect(0,0,canvas.width,canvas.height);
-        ctx.fillStyle = "white";
-        ctx.fillRect(2,2,canvas.width - 2,canvas.height - 2);
+        canvas.width = 100;
+        canvas.height = 100;
+        this.ctx = canvas.getContext("2d");
+        this.ctx.fillStyle = "red";
+        this.ctx.fillRect(0,0,canvas.width,canvas.height);
+        this.ctx.fillStyle = "white";
+        this.ctx.fillRect(2,2,canvas.width - 4,canvas.height - 4);
+        this.ctx.fillStyle = "black";
         let texture = new THREE.CanvasTexture(canvas);
         this.material = new THREE.MeshStandardMaterial({color:"white", roughness:0.5, metalness:0.6, side: THREE.DoubleSide, map:texture});
         this.mesh = new THREE.Mesh(this.geometry,this.material);
@@ -73,6 +76,27 @@ export default class Face
             break;
         }
 
+        let W = this.ctx.canvas.width;
+        let H = this.ctx.canvas.height;
+        switch(direction)
+        {
+            case "top":
+                this.ctx.fillRect(0,0,W,2);
+                newFace.ctx.fillRect(0,H-2,W,2);
+                break;
+            case "left":
+                this.ctx.fillRect(0,0,2,H);
+                newFace.ctx.fillRect(W-2,0,2,H);
+                break;
+            case "right":
+                this.ctx.fillRect(W-2,0,2,H);
+                newFace.ctx.fillRect(0,0,2,H);
+                break;
+            case "bottom":
+                this.ctx.fillRect(0,H-2,W,2);
+                newFace.ctx.fillRect(0,0,W,2);
+                break;
+        }
         return newFace;
     }
 }
