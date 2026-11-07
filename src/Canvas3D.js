@@ -8,7 +8,7 @@ export default class Canvas3D extends HTMLCanvasElement
     constructor(width, height)
     {
         super();
-
+        this.style.touchAction = "none";
         this.renderer = new THREE.WebGLRenderer({antialias: true,canvas:this});
         this.renderer.setSize(width, height);
         this.renderer.shadowMap.enabled = true;
@@ -22,14 +22,17 @@ export default class Canvas3D extends HTMLCanvasElement
         this.camera.lookAt(0,0,0);
 
         this.isDown = false;
-        this.addEventListener("mousedown",e=>this.isDown = true);
-        window.addEventListener("mouseup",e=>this.isDown = false);
-        this.addEventListener("mousemove", e =>
+        this.addEventListener("pointerdown",e=>this.isDown = true);
+        window.addEventListener("pointerup",e=>this.isDown = false);
+        this.addEventListener("pointermove", e =>
         {
             if(this.isDown && this.object)
             {
-                this.object.rotateY(-0.01* e.movementX);
-                this.object.rotateX(0.01*e.movementY);
+                this.camera.updateMatrixWorld();
+                let right = new THREE.Vector3().setFromMatrixColumn(this.camera.matrixWorld, 0).normalize();
+                let up = new THREE.Vector3().setFromMatrixColumn(this.camera.matrixWorld, 1).normalize();
+                this.object.rotateOnWorldAxis(up, 0.01 * e.movementX);
+                this.object.rotateOnWorldAxis(right, 0.01 * e.movementY);
             }
         });
 
