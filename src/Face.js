@@ -6,16 +6,34 @@ export default class Face
     setRotation = _=>_;
     getRotation = _=>0;
     rotate = _=>_;
-    constructor()
+    constructor(leftColor, topColor, rightColor, bottomColor)
     {
         let canvas = document.createElement("canvas");
         canvas.width = 100;
         canvas.height = 100;
         this.ctx = canvas.getContext("2d");
-        this.ctx.fillStyle = "red";
-        this.ctx.fillRect(0,0,canvas.width,canvas.height);
         this.ctx.fillStyle = "white";
-        this.ctx.fillRect(2,2,canvas.width - 4,canvas.height - 4);
+        this.ctx.fillRect(0,0,canvas.width,canvas.height);
+        if(leftColor)
+        {
+            this.ctx.fillStyle = leftColor;
+            this.ctx.fillRect(0,0,10,canvas.height);
+        }
+        if(topColor)
+        {
+            this.ctx.fillStyle = topColor;
+            this.ctx.fillRect(0,0,canvas.width,10);
+        }
+        if(rightColor)
+        {
+            this.ctx.fillStyle = rightColor;
+            this.ctx.fillRect(canvas.width - 10,0,10,canvas.height);
+        }
+        if(bottomColor)
+        {
+            this.ctx.fillStyle = bottomColor;
+            this.ctx.fillRect(0,canvas.height - 10,canvas.width,10);
+        }
         this.ctx.fillStyle = "black";
         let texture = new THREE.CanvasTexture(canvas);
         this.material = new THREE.MeshStandardMaterial({color:"white", roughness:0.5, metalness:0.6, side: THREE.DoubleSide, map:texture});
@@ -26,7 +44,7 @@ export default class Face
     /**
      * @param {"left"|"top"|"right"|"bottom"} direction 
      */
-    addFace(direction)
+    addFace(direction, ...colors)
     {
         let group = new THREE.Group();
         switch(direction)
@@ -39,7 +57,7 @@ export default class Face
 
         this.mesh.add(group);
 
-        let newFace = new Face();
+        let newFace = new Face(...colors);
         switch(direction)
         {
             case "left": newFace.mesh.position.set(-0.5,0); break;
