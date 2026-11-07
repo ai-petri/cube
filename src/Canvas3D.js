@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/Addons.js';
 
 
 export default class Canvas3D extends HTMLCanvasElement
@@ -8,7 +9,7 @@ export default class Canvas3D extends HTMLCanvasElement
     constructor(width, height)
     {
         super();
-        this.style.touchAction = "none";
+
         this.renderer = new THREE.WebGLRenderer({antialias: true,canvas:this});
         this.renderer.setSize(width, height);
         this.renderer.shadowMap.enabled = true;
@@ -21,47 +22,19 @@ export default class Canvas3D extends HTMLCanvasElement
         this.camera.position.z = 4;
         this.camera.lookAt(0,0,0);
 
-        this.isDown = false;
-        this.addEventListener("pointerdown",e=>this.isDown = true);
-        window.addEventListener("pointerup",e=>this.isDown = false);
-        this.addEventListener("pointermove", e =>
-        {
-            if(this.isDown && this.object)
-            {
-                this.camera.updateMatrixWorld();
-                let right = new THREE.Vector3().setFromMatrixColumn(this.camera.matrixWorld, 0).normalize();
-                let up = new THREE.Vector3().setFromMatrixColumn(this.camera.matrixWorld, 1).normalize();
-                this.object.rotateOnWorldAxis(up, 0.01 * e.movementX);
-                this.object.rotateOnWorldAxis(right, 0.01 * e.movementY);
-            }
-        });
-
-        this.addEventListener("wheel", e=>
-        {
-            e.preventDefault();
-
-            let target = new THREE.Vector3(0, 0, 0);
-            let distance = this.camera.position.distanceTo(target)
-
-            if((distance>3 && e.deltaY>0)|| e.deltaY<0)
-            {
-                let direction = target.clone().sub(this.camera.position).normalize();
-                this.camera.position.addScaledVector(direction, 0.001*e.deltaY); 
-                this.camera.lookAt(target);
-            }
-
-        },{passive:false})
+        this.controls = new OrbitControls(this.camera, this);
 
 
         const light1 = new THREE.AmbientLight("white", 1)
         this.scene.add(light1);
         const light2 = new THREE.PointLight("white", 20);
-        light2.position.set(0,5);
+        light2.position.set(0,5,-4);
         light2.castShadow = true;
         light2.shadow.mapSize.set(640,640)
-        light2.shadow.normalBias = 0.01
+        light2.shadow.normalBias = 0.005
         light2.shadow.bias = -0.001;
-        this.scene.add(light2);
+        this.camera.add(light2);
+        this.scene.add(this.camera);
 
     }
 
