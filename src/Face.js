@@ -17,22 +17,46 @@ export default class Face
         if(leftColor)
         {
             this.ctx.fillStyle = leftColor;
-            this.ctx.fillRect(0,0,10,canvas.height);
+            this.ctx.beginPath();
+            this.ctx.moveTo(0,0);
+            this.ctx.lineTo(0,100);
+            this.ctx.lineTo(10,90);
+            this.ctx.lineTo(10,10);
+            this.ctx.lineTo(0,0);
+            this.ctx.fill();
         }
         if(topColor)
         {
             this.ctx.fillStyle = topColor;
-            this.ctx.fillRect(0,0,canvas.width,10);
+            this.ctx.beginPath();
+            this.ctx.moveTo(0,0);
+            this.ctx.lineTo(100,0);
+            this.ctx.lineTo(90,10);
+            this.ctx.lineTo(10,10);
+            this.ctx.lineTo(0,0);
+            this.ctx.fill();
         }
         if(rightColor)
         {
             this.ctx.fillStyle = rightColor;
-            this.ctx.fillRect(canvas.width - 10,0,10,canvas.height);
+            this.ctx.beginPath();
+            this.ctx.moveTo(100,0);
+            this.ctx.lineTo(100,100);
+            this.ctx.lineTo(90,90);
+            this.ctx.lineTo(90,10);
+            this.ctx.lineTo(100,0);
+            this.ctx.fill();
         }
         if(bottomColor)
         {
             this.ctx.fillStyle = bottomColor;
-            this.ctx.fillRect(0,canvas.height - 10,canvas.width,10);
+            this.ctx.beginPath();
+            this.ctx.moveTo(0,100);
+            this.ctx.lineTo(10,90);
+            this.ctx.lineTo(90,90);
+            this.ctx.lineTo(100,100);
+            this.ctx.lineTo(0,100);
+            this.ctx.fill();
         }
         this.ctx.fillStyle = "black";
         let texture = new THREE.CanvasTexture(canvas);
