@@ -149,9 +149,10 @@ import Canvas3D from './Canvas3D';
 function createDiv(...faces)
 {
     let div = document.createElement("div");
-    div.style.display = "flex";
-    
-    let canvas = new Canvas3D(innerWidth/3, innerHeight/3);
+    div.className = "item";
+    let width = innerWidth > innerHeight ? Math.round(0.5*innerWidth) : Math.round(0.9*innerWidth);
+    let height = Math.round((9/16) * width); 
+    let canvas = new Canvas3D(width,height);
     
     canvas.scene.add(faces[0].mesh);
     canvas.object = faces[0].mesh;
